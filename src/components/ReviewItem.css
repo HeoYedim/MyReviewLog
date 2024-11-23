@@ -1,0 +1,76 @@
+.ReviewItem {
+  display: flex;
+  gap: 15px;
+  border-bottom: 1px solid rgb(236, 236, 236);
+}
+
+.rectangle {
+  width: 120px;
+  height: 160px;
+  background-color: #7b7b7b;
+}
+
+.img-edit_section {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.img-edit_section button {
+  flex: 1;
+  margin: 5px 0px;
+}
+
+.info_section {
+  cursor: pointer;
+  flex: 1;
+}
+
+.ReviewItem p {
+  font-size: 14px;
+  color: #7b7b7b;
+  margin: 8px 0px;
+}
+
+.info_section .created_date {
+  font-size: 14px;
+  color: #7b7b7b;
+  margin: 15px 0px 5px 0px;
+}
+
+.contentTitle_section {
+  display: flex;
+  align-items: center;
+}
+
+.contentTitle {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 0px 10px 0px;
+}
+
+.contentCategory {
+  background-color: #1b52b1;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.content {
+  flex: 1;
+}
+
+.star {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.genre {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
