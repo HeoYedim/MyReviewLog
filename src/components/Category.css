@@ -1,0 +1,16 @@
+.category {
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.movie {
+  background-color: #1b52b1;
+}
+
+.book {
+  background-color: #29773e;
+}
