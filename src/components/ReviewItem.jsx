@@ -1,7 +1,8 @@
 import Button from "./Button";
+import Category from "./Category";
 import "./ReviewItem.css";
 
-const ReviewItem = () => {
+const ReviewItem = ({ category_type, title }) => {
   return (
     <div className="ReviewItem">
       <div className="img-edit_section">
@@ -12,8 +13,8 @@ const ReviewItem = () => {
       <div className="info_section">
         <div className="created_date">{new Date().toLocaleDateString()}</div>
         <div className="contentTitle_section">
-          <span className="contentCategory">영화</span>
-          <span className="contentTitle">청설</span>
+          <Category type={category_type} />
+          <span className="contentTitle">{title}</span>
         </div>
         <div className="content">
           <div className="star">

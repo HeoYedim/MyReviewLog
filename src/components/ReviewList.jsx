@@ -18,7 +18,8 @@ const ReviewList = () => {
         <Button text={"새 리뷰 작성"} type={"POSITIVE"} />
       </div>
       <div className="list_wrapper">
-        <ReviewItem />
+        <ReviewItem category_type={"movie"} title={"청설"} />
+        <ReviewItem category_type={"book"} title={"작별하지 않는다"} />
       </div>
     </div>
   );
