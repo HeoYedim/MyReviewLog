@@ -4,8 +4,10 @@ import Home from "./pages/Home";
 import New from "./pages/New";
 import Review from "./pages/Review";
 import Notfound from "./pages/Notfound";
+// import { useReducer } from "react";
 
 function App() {
+  // const [data, dispatch] = useReducer(reducer, mockData);
   return (
     <Routes>
       <Route path="/" element={<Home />} />
