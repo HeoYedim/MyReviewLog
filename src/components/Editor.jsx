@@ -33,6 +33,7 @@ const Editor = () => {
     createdDate1: new Date(),
     createdDate2: new Date(),
     rating: 0,
+    selectedGenres: ["", "", ""],
     reviewSummary: "",
     reviewDetails: "",
   }); // 사용자 입력 확인
@@ -45,10 +46,78 @@ const Editor = () => {
       value = new Date(value);
     }
 
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
+    }));
+  };
+
+  const movieGenres = [
+    "액션",
+    "어드벤처",
+    "코미디",
+    "드라마",
+    "판타지",
+    "공포",
+    "로맨스",
+    "SF(공상과학)",
+    "스릴러",
+    "미스터리",
+    "애니메이션",
+    "다큐멘터리",
+    "범죄",
+    "가족",
+    "음악",
+    "역사",
+    "전쟁",
+    "서부",
+    "스포츠",
+  ];
+
+  const bookGenres = [
+    "소설",
+    "역사",
+    "철학",
+    "자기계발",
+    "과학",
+    "예술",
+    "시",
+    "에세이",
+    "경제/경영",
+    "판타지",
+    "미스터리",
+    "로맨스",
+    "공포",
+    "과학 소설(SF)",
+    "어린이/청소년",
+    "전기",
+    "논픽션",
+    "종교/영성",
+  ];
+
+  const handleGenreChange = (index, value) => {
+    setFormData((prev) => {
+      const updatedGenres = [...prev.selectedGenres];
+      updatedGenres[index] = value;
+      return { ...prev, selectedGenres: updatedGenres };
     });
+  }; // 장르 변경 핸들러
+
+  const getAvailableGenres = (index) => {
+    const allGenres = formData.category === "movie" ? movieGenres : bookGenres;
+    return allGenres.filter(
+      (genre) =>
+        !formData.selectedGenres.includes(genre) ||
+        formData.selectedGenres[index] === genre
+    );
+  }; // 선택된 장르 제외
+
+  const handleCategoryChange = (category) => {
+    setFormData((prev) => ({
+      ...prev,
+      category: category,
+      selectedGenres: ["", "", ""], // 카테고리 변경 시 장르 초기화
+    }));
   };
 
   return (
@@ -59,9 +128,7 @@ const Editor = () => {
           className={`category_button movie ${
             formData.category === "movie" ? "active" : ""
           }`}
-          onClick={() =>
-            setFormData((prev) => ({ ...prev, category: "movie" }))
-          }
+          onClick={() => handleCategoryChange("movie")}
         >
           영화
         </button>
@@ -69,7 +136,7 @@ const Editor = () => {
           className={`category_button book ${
             formData.category === "book" ? "active" : ""
           }`}
-          onClick={() => setFormData((prev) => ({ ...prev, category: "book" }))}
+          onClick={() => handleCategoryChange("book")}
         >
           도서
         </button>
@@ -118,28 +185,23 @@ const Editor = () => {
 
       <section className="genre_section">
         <h5>장르</h5>
-        <div className="genre_grop">
-          <div className="select_wrapper">
-            <select id="select1" className="custom_select">
-              <option value="1">옵션 1-1</option>
-              <option value="1">옵션 1-2</option>
-              <option value="1">옵션 1-3</option>
-            </select>
-          </div>
-          <div className="select_wrapper">
-            <select id="select2" className="custom_select">
-              <option value="1">옵션 2-1</option>
-              <option value="1">옵션 2-2</option>
-              <option value="1">옵션 2-3</option>
-            </select>
-          </div>
-          <div className="select_wrapper">
-            <select id="select3" className="custom_select">
-              <option value="1">옵션 3-1</option>
-              <option value="1">옵션 3-2</option>
-              <option value="1">옵션 3-3</option>
-            </select>
-          </div>
+        <div className="genre_group">
+          {[0, 1, 2].map((index) => (
+            <div className="select_wrapper" key={index}>
+              <select
+                value={formData.selectedGenres[index]}
+                onChange={(e) => handleGenreChange(index, e.target.value)}
+                className="custom_select"
+              >
+                <option value="">장르 선택</option>
+                {getAvailableGenres(index).map((genre, i) => (
+                  <option key={i} value={genre}>
+                    {genre}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
         </div>
       </section>
 

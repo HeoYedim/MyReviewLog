@@ -104,7 +104,8 @@ input[type="text"] {
 }
 
 /* --------------------장르----------------------- */
-.genre_grop {
+.genre_group {
+  display: flex;
   gap: 30px;
 }
 
@@ -112,7 +113,7 @@ input[type="text"] {
   background-color: rgb(236, 236, 236);
   border: none;
   border-radius: 5px;
-  width: 110px;
+  width: 115px;
   padding: 10px;
   cursor: pointer;
 }
