@@ -1,8 +1,11 @@
 import "./ReviewList.css";
 import Button from "./Button";
 import ReviewItem from "./ReviewItem";
+import { useNavigate } from "react-router-dom";
 
 const ReviewList = () => {
+  const nav = useNavigate();
+
   return (
     <div className="ReviewList">
       <div className="menu_bar">
@@ -15,7 +18,11 @@ const ReviewList = () => {
           <option value={"movies"}>영화</option>
           <option value={"books"}>도서</option>
         </select>
-        <Button text={"새 리뷰 작성"} type={"POSITIVE"} />
+        <Button
+          onClick={() => nav("/new")}
+          text={"새 리뷰 작성"}
+          type={"POSITIVE"}
+        />
       </div>
       <div className="list_wrapper">
         <ReviewItem category_type={"movie"} title={"청설"} />
