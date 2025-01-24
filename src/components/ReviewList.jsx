@@ -3,7 +3,8 @@ import Button from "./Button";
 import ReviewItem from "./ReviewItem";
 import { useNavigate } from "react-router-dom";
 
-const ReviewList = () => {
+const ReviewList = ({ data }) => {
+  console.log("리뷰 리스트 데이터 확인: ", data);
   const nav = useNavigate();
 
   return (
@@ -25,8 +26,23 @@ const ReviewList = () => {
         />
       </div>
       <div className="list_wrapper">
-        <ReviewItem category_type={"movie"} title={"청설"} />
-        <ReviewItem category_type={"book"} title={"작별하지 않는다"} />
+        {data.length > 0 ? (
+          data.map((item) => (
+            <ReviewItem
+              key={item.id}
+              id={item.id} // id 추가
+              category={item.category}
+              createdTitle={item.createdTitle}
+              createdDate1={item.createdDate1 || ""}
+              createdDate2={item.createdDate2 || ""}
+              rating={item.rating}
+              selectedGenres={item.selectedGenres}
+              reviewSummary={item.reviewSummary}
+            />
+          ))
+        ) : (
+          <p>리뷰가 없습니다.</p>
+        )}
       </div>
     </div>
   );
