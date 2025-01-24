@@ -46,6 +46,10 @@ const Editor = () => {
       value = new Date(value);
     }
 
+    if (name === "reviewSummary" && value.length > 50) {
+      return;
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -207,21 +211,29 @@ const Editor = () => {
 
       <section className="reviewSummary_section">
         <h5>한 줄 리뷰</h5>
-        <textarea
-          name="reviewSummary"
-          value={formData.reviewSummary}
-          onChange={onChangeFormData}
-          placeholder="한 줄 리뷰를 작성해 보세요!"
-        ></textarea>
+        <div className="textareaWrapper" style={{ position: "relative" }}>
+          <textarea
+            className="reviewSumary"
+            name="reviewSummary"
+            value={formData.reviewSummary}
+            onChange={onChangeFormData}
+            placeholder="한 줄 리뷰를 작성해 보세요!"
+            rows={1}
+            cols={40}
+          ></textarea>
+          <div className="charCount">{formData.reviewSummary.length} / 50</div>
+        </div>
       </section>
 
       <section className="reviewDetails_section">
         <h5>전체 리뷰</h5>
         <textarea
+          className="reviewDetails"
           name="reviewDetails"
           value={formData.reviewDetails}
           onChange={onChangeFormData}
           placeholder="전체 리뷰를 작성해 보세요!"
+          rows={5}
         ></textarea>
       </section>
 
