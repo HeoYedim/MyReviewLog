@@ -1,5 +1,5 @@
 .Editor > section {
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .category_section,
@@ -11,6 +11,8 @@
   display: flex;
   gap: 20px;
   align-items: center;
+
+  height: 40px;
 }
 
 .Editor > section > h5 {
@@ -20,7 +22,7 @@
 /* --------------------유형----------------------- */
 
 .category_section {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .category_button {
@@ -56,29 +58,50 @@
 
 /* --------------------유형 끝----------------------- */
 
+/* --------------------input, textArea 시작----------------------- */
+/* 제목, 날짜 Input */
 .Editor > section > input {
   background-color: rgb(236, 236, 236);
   border: none;
   border-radius: 5px;
-  height: 30px;
+  height: 25px;
   font-size: 14px;
   padding: 0px 10px;
 }
 
-.Editor > section > textarea,
+/* 제목 */
 input[type="text"] {
+  margin-right: 165px;
+  width: 100%;
+}
+
+/* 한줄 리뷰, 전체 리뷰 */
+.Editor > section > textarea,
+.textareaWrapper > textarea {
   background-color: rgb(236, 236, 236);
   border: none;
   border-radius: 5px;
-  padding: 10px;
+  padding: 5px 10px;
   width: 100%;
-  min-height: 40px;
-  resize: vertical;
+  resize: none;
   box-sizing: border-box;
 }
 
-input[type="text"] {
-  margin-right: 165px;
+.reviewSumary {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.charCount {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 11px;
+  color: gray;
+}
+
+.reviewDetails {
+  min-height: 100px;
 }
 
 /* --------------------별점----------------------- */
@@ -114,7 +137,7 @@ input[type="text"] {
   border: none;
   border-radius: 5px;
   width: 115px;
-  padding: 10px;
+  padding: 6px 10px;
   cursor: pointer;
 }
 
