@@ -1,23 +1,26 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import "./Editor.css";
 
 const getStringedDate = (targetDate) => {
+  if (!targetDate) return "";
+  const dateObj =
+    targetDate instanceof Date ? targetDate : new Date(targetDate);
+  if (isNaN(dateObj.getTime())) return "";
+
   let year = targetDate.getFullYear();
   let month = targetDate.getMonth() + 1;
   let date = targetDate.getDate();
 
-  if (month < 10) {
-    month = `0${month}`;
-  }
-  if (date < 10) {
-    date = `0${date}`;
-  }
-
-  return `${year}-${month}-${date}`;
+  return `${year}-${month < 10 ? `0${month}` : month}-${
+    date < 10 ? `0${date}` : date
+  }`;
 };
 
-const Editor = () => {
+const Editor = ({ onSubmit }) => {
+  const nav = useNavigate();
+
   const handleStarClick = (star) => {
     onChangeFormData({
       target: {
@@ -43,7 +46,7 @@ const Editor = () => {
     let value = e.target.value;
 
     if (name === "createdDate1" || name === "createdDate2") {
-      value = new Date(value);
+      value = value ? new Date(value) : null;
     }
 
     if (name === "reviewSummary" && value.length > 50) {
@@ -54,6 +57,8 @@ const Editor = () => {
       ...prev,
       [name]: value,
     }));
+
+    console.log(`업데이트된 ${name}:`, value);
   };
 
   const movieGenres = [
@@ -122,6 +127,10 @@ const Editor = () => {
       category: category,
       selectedGenres: ["", "", ""], // 카테고리 변경 시 장르 초기화
     }));
+  };
+
+  const onClickSubmitButton = () => {
+    onSubmit(formData);
   };
 
   return (
@@ -238,8 +247,17 @@ const Editor = () => {
       </section>
 
       <section className="button_section">
-        <Button text={"취소하기"} />
-        <Button text={"작성완료"} type={"POSITIVE"} />
+        <Button
+          onClick={() => {
+            nav(-1);
+          }}
+          text={"취소하기"}
+        />
+        <Button
+          onClick={onClickSubmitButton}
+          text={"작성완료"}
+          type={"POSITIVE"}
+        />
       </section>
     </div>
   );
