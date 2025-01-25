@@ -31,7 +31,7 @@ const Editor = ({ onSubmit }) => {
   };
 
   const [formData, setFormData] = useState({
-    category: "",
+    category: "movie",
     createdTitle: "",
     createdDate1: new Date(),
     createdDate2: new Date(),
@@ -49,7 +49,7 @@ const Editor = ({ onSubmit }) => {
       value = value ? new Date(value) : null;
     }
 
-    if (name === "reviewSummary" && value.length > 50) {
+    if (name === "reviewSummary" && value.length > 30) {
       return;
     }
 
@@ -58,7 +58,7 @@ const Editor = ({ onSubmit }) => {
       [name]: value,
     }));
 
-    console.log(`업데이트된 ${name}:`, value);
+    // console.log(`업데이트된 ${name}:`, value);
   };
 
   const movieGenres = [
@@ -180,6 +180,7 @@ const Editor = ({ onSubmit }) => {
           onChange={onChangeFormData}
           value={getStringedDate(formData.createdDate2)}
           type="date"
+          min={getStringedDate(formData.createdDate1)}
         />
       </section>
 
@@ -230,7 +231,7 @@ const Editor = ({ onSubmit }) => {
             rows={1}
             cols={40}
           ></textarea>
-          <div className="charCount">{formData.reviewSummary.length} / 50</div>
+          <div className="charCount">{formData.reviewSummary.length} / 30</div>
         </div>
       </section>
 

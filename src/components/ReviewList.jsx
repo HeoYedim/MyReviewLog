@@ -26,7 +26,7 @@ const ReviewList = ({ data }) => {
         />
       </div>
       <div className="list_wrapper">
-        {data.length > 0 ? (
+        {data.length > 0 &&
           data.map((item) => (
             <ReviewItem
               key={item.id}
@@ -39,10 +39,7 @@ const ReviewList = ({ data }) => {
               selectedGenres={item.selectedGenres}
               reviewSummary={item.reviewSummary}
             />
-          ))
-        ) : (
-          <p>리뷰가 없습니다.</p>
-        )}
+          ))}
       </div>
     </div>
   );
