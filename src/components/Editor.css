@@ -36,23 +36,23 @@
 
 /* 왼쪽 버튼 초기 상태 (초록색 테두리) */
 .category_button.movie {
-  border-color: #28a745; /* 초록색 테두리 */
+  border-color: #007bff; /* 초록색 테두리 */
 }
 
 /* 오른쪽 버튼 초기 상태 (파란색 테두리) */
 .category_button.book {
-  border-color: #007bff; /* 파란색 테두리 */
+  border-color: #28a745; /* 파란색 테두리 */
 }
 
 .category_button.movie.active {
-  background-color: #28a745;
-  border-color: #28a745;
+  background-color: #007bff;
+  border-color: #007bff;
   color: white;
 }
 
 .category_button.book.active {
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #28a745;
+  border-color: #28a745;
   color: white;
 }
 
@@ -71,7 +71,7 @@
 
 /* 제목 */
 input[type="text"] {
-  margin-right: 165px;
+  margin-right: 173px;
   width: 100%;
 }
 
@@ -129,7 +129,7 @@ input[type="text"] {
 /* --------------------장르----------------------- */
 .genre_group {
   display: flex;
-  gap: 30px;
+  gap: 20px;
 }
 
 .custom_select {

@@ -63,14 +63,24 @@
   flex: 1;
 }
 
+.rating {
+  display: flex;
+}
 .star {
   display: flex;
   align-items: center;
-  gap: 10px;
+  margin: 0px 10px;
+  color: #f39c12;
+  font-size: 25px;
 }
 
 .genre {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.genre span {
+  color: navy;
+  margin-right: 5px;
 }
