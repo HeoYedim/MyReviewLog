@@ -2,21 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import "./Editor.css";
-
-const getStringedDate = (targetDate) => {
-  if (!targetDate) return "";
-  const dateObj =
-    targetDate instanceof Date ? targetDate : new Date(targetDate);
-  if (isNaN(dateObj.getTime())) return "";
-
-  let year = targetDate.getFullYear();
-  let month = targetDate.getMonth() + 1;
-  let date = targetDate.getDate();
-
-  return `${year}-${month < 10 ? `0${month}` : month}-${
-    date < 10 ? `0${date}` : date
-  }`;
-};
+import { getStringedDate } from "../util/get-stringed-date";
 
 const Editor = ({ initData, onSubmit }) => {
   const handleStarClick = (star) => {

@@ -61,8 +61,8 @@ function App() {
         createdTitle: createdTitle || "제목 미입력",
         rating: rating || 1,
         selectedGenres: selectedGenres.length > 0 ? selectedGenres : ["미지정"],
-        reviewSummary: reviewSummary || "리뷰 미입력",
-        reviewDetails,
+        reviewSummary: reviewSummary || "한 줄 리뷰 미입력",
+        reviewDetails: reviewDetails || "전체 리뷰 미입력",
       },
     });
   };
