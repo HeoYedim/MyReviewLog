@@ -5,26 +5,14 @@ import { ReviewDispatchContext, ReviewStateContext } from "../App";
 import Button from "../components/Button";
 import Editor from "../components/Editor";
 import Header from "../components/Header";
+import useReview from "../hooks/useReview";
 
 const Edit = () => {
   const params = useParams();
   const nav = useNavigate();
   const { onDelete, onUpdate } = useContext(ReviewDispatchContext);
-  const data = useContext(ReviewStateContext);
-  const [curReviewItem, setCurReviewItem] = useState();
 
-  useEffect(() => {
-    const currentReviewItem = data.find(
-      (item) => String(item.id) === String(params.id)
-    );
-
-    if (!currentReviewItem) {
-      window.alert("존재하지 않는 리뷰입니다.");
-      nav("/", { replace: true });
-    }
-
-    setCurReviewItem(currentReviewItem);
-  }, [params.id, data]); // v7 일 땐 [params.id, data]에서 data 지우고 params.id만 남겨야 함
+  const curReviewItem = useReview(params.id);
 
   const onClickDelete = () => {
     if (window.confirm("리뷰를 정말 삭제할까요? 다시 복구되지 않아요!")) {
