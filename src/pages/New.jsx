@@ -20,7 +20,8 @@ const New = () => {
       formData.createdTitle,
       formData.rating,
       formData.selectedGenres,
-      formData.reviewSummary
+      formData.reviewSummary,
+      formData.reviewDetails
     );
     nav(`/`, { replace: true });
   };

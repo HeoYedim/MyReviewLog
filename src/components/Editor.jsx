@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import "./Editor.css";
@@ -18,9 +18,7 @@ const getStringedDate = (targetDate) => {
   }`;
 };
 
-const Editor = ({ onSubmit }) => {
-  const nav = useNavigate();
-
+const Editor = ({ initData, onSubmit }) => {
   const handleStarClick = (star) => {
     onChangeFormData({
       target: {
@@ -35,11 +33,23 @@ const Editor = ({ onSubmit }) => {
     createdTitle: "",
     createdDate1: new Date(),
     createdDate2: new Date(),
-    rating: 0,
+    rating: 1,
     selectedGenres: ["", "", ""],
     reviewSummary: "",
     reviewDetails: "",
   }); // 사용자 입력 확인
+
+  const nav = useNavigate();
+
+  useEffect(() => {
+    if (initData) {
+      setFormData({
+        ...initData,
+        createdDate1: new Date(Number(initData.createdDate1)),
+        createdDate2: new Date(Number(initData.createdDate2)),
+      });
+    }
+  }, [initData]);
 
   const onChangeFormData = (e) => {
     let name = e.target.name;

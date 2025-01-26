@@ -48,7 +48,8 @@ function App() {
     createdTitle,
     rating,
     selectedGenres,
-    reviewSummary
+    reviewSummary,
+    reviewDetails
   ) => {
     dispatch({
       type: "CREATE",
@@ -61,6 +62,7 @@ function App() {
         rating: rating || 1,
         selectedGenres: selectedGenres.length > 0 ? selectedGenres : ["미지정"],
         reviewSummary: reviewSummary || "리뷰 미입력",
+        reviewDetails,
       },
     });
   };
@@ -70,10 +72,12 @@ function App() {
     id,
     createdDate1,
     createdDate2,
+    category,
     createdTitle,
     rating,
     selectedGenres,
-    reviewSummary
+    reviewSummary,
+    reviewDetails
   ) => {
     dispatch({
       type: "UPDATE",
@@ -81,10 +85,12 @@ function App() {
         id,
         createdDate1,
         createdDate2,
+        category,
         createdTitle,
         rating,
         selectedGenres,
         reviewSummary,
+        reviewDetails,
       },
     });
   };

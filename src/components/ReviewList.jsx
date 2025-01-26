@@ -4,7 +4,7 @@ import ReviewItem from "./ReviewItem";
 import { useNavigate } from "react-router-dom";
 
 const ReviewList = ({ data }) => {
-  console.log("리뷰 리스트 데이터 확인: ", data);
+  // console.log("리뷰 리스트 데이터 확인: ", data);
   const nav = useNavigate();
 
   return (
