@@ -51,6 +51,26 @@ function App() {
     reviewSummary,
     reviewDetails
   ) => {
+    if (!createdTitle.trim()) {
+      alert("제목을 입력해주세요.");
+      return;
+    }
+
+    if (selectedGenres.every((genre) => !genre.trim())) {
+      alert("최소 하나의 장르를 선택해주세요.");
+      return;
+    }
+
+    if (!reviewSummary.trim()) {
+      alert("한 줄 리뷰를 입력해주세요.");
+      return;
+    }
+
+    if (!reviewDetails.trim()) {
+      alert("전체 리뷰를 입력해주세요.");
+      return;
+    }
+
     dispatch({
       type: "CREATE",
       data: {
@@ -58,11 +78,11 @@ function App() {
         createdDate1: createdDate1 || new Date(),
         createdDate2: createdDate2 || new Date(),
         category: category || "movie",
-        createdTitle: createdTitle || "제목 미입력",
+        createdTitle,
         rating: rating || 1,
-        selectedGenres: selectedGenres.length > 0 ? selectedGenres : ["미지정"],
-        reviewSummary: reviewSummary || "한 줄 리뷰 미입력",
-        reviewDetails: reviewDetails || "전체 리뷰 미입력",
+        selectedGenres,
+        reviewSummary,
+        reviewDetails,
       },
     });
   };
