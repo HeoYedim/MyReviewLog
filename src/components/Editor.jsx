@@ -27,6 +27,8 @@ const Editor = ({ initData, onSubmit }) => {
 
   const nav = useNavigate();
 
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
     if (initData) {
       setFormData({
@@ -54,7 +56,7 @@ const Editor = ({ initData, onSubmit }) => {
       [name]: value,
     }));
 
-    // console.log(`업데이트된 ${name}:`, value);
+    setErrors({ ...errors, [name]: "" }); // 입력 시 오류 초기화
   };
 
   const movieGenres = [
@@ -106,6 +108,14 @@ const Editor = ({ initData, onSubmit }) => {
       updatedGenres[index] = value;
       return { ...prev, selectedGenres: updatedGenres };
     });
+
+    // 선택 시 오류 메시지 제거
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      Genre: formData.selectedGenres.some((genre) => genre.trim() !== "")
+        ? ""
+        : prevErrors.Genre,
+    }));
   }; // 장르 변경 핸들러
 
   const getAvailableGenres = (index) => {
@@ -125,7 +135,36 @@ const Editor = ({ initData, onSubmit }) => {
     }));
   };
 
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!formData.createdTitle.trim()) {
+      newErrors.createdTitle = "제목을 입력해주세요.";
+    }
+
+    if (formData.selectedGenres.every((genre) => genre.trim() === "")) {
+      newErrors.Genre = "최소 하나의 장르를 선택해주세요.";
+    }
+
+    if (!formData.reviewSummary.trim()) {
+      newErrors.reviewSummary = "한 줄 리뷰를 입력해주세요.";
+    }
+
+    if (!formData.reviewDetails.trim()) {
+      newErrors.reviewDetails = "전체 리뷰를 입력해주세요.";
+    }
+
+    setErrors(newErrors);
+
+    // 오류가 있을 경우 false 반환
+    return Object.keys(newErrors).length === 0;
+  };
+
   const onClickSubmitButton = () => {
+    if (!validateForm()) {
+      return; // 유효성 검사 실패 시 여기서 함수 실행 중단
+    }
+
     onSubmit(formData);
   };
 
@@ -159,7 +198,11 @@ const Editor = ({ initData, onSubmit }) => {
           onChange={onChangeFormData}
           type="text"
           placeholder="제목을 입력하세요"
+          className={errors.createdTitle ? "input-error" : ""}
         />
+        {errors.createdTitle && (
+          <div className="error-message">{errors.createdTitle}</div>
+        )}
       </section>
 
       <section className="date_section">
@@ -201,7 +244,7 @@ const Editor = ({ initData, onSubmit }) => {
               <select
                 value={formData.selectedGenres[index]}
                 onChange={(e) => handleGenreChange(index, e.target.value)}
-                className="custom_select"
+                className={`custom_select ${errors.Genre ? "input-error" : ""}`}
               >
                 <option value="">장르 선택</option>
                 {getAvailableGenres(index).map((genre, i) => (
@@ -213,6 +256,7 @@ const Editor = ({ initData, onSubmit }) => {
             </div>
           ))}
         </div>
+        {errors.Genre && <div className="error-message">{errors.Genre}</div>}
       </section>
 
       <section className="reviewSummary_section">
@@ -229,6 +273,9 @@ const Editor = ({ initData, onSubmit }) => {
           ></textarea>
           <div className="charCount">{formData.reviewSummary.length} / 30</div>
         </div>
+        {errors.reviewSummary && (
+          <div className="error-message">{errors.reviewSummary}</div>
+        )}
       </section>
 
       <section className="reviewDetails_section">
@@ -241,6 +288,9 @@ const Editor = ({ initData, onSubmit }) => {
           placeholder="전체 리뷰를 작성해 보세요!"
           rows={5}
         ></textarea>
+        {errors.reviewDetails && (
+          <div className="error-message">{errors.reviewDetails}</div>
+        )}
       </section>
 
       <section className="button_section">
