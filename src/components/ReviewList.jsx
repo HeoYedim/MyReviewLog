@@ -2,15 +2,38 @@ import "./ReviewList.css";
 import Button from "./Button";
 import ReviewItem from "./ReviewItem";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const ReviewList = ({ data }) => {
   // console.log("리뷰 리스트 데이터 확인: ", data);
   const nav = useNavigate();
 
+  const [sortCriteria, setSortCriteria] = useState("latest"); // 기본값: 최신순
+
+  // 정렬 함수
+  const getSortedData = () => {
+    let sortedData = [...data];
+
+    if (sortCriteria === "latest") {
+      sortedData.sort(
+        (a, b) => new Date(b.createdDate1) - new Date(a.createdDate1)
+      );
+    } else if (sortCriteria === "rating") {
+      sortedData.sort((a, b) => b.rating - a.rating);
+    }
+
+    return sortedData;
+  };
+
   return (
     <div className="ReviewList">
       <div className="menu_bar">
-        <select name="sort" id="sort">
+        <select
+          name="sort"
+          id="sort"
+          value={sortCriteria}
+          onChange={(e) => setSortCriteria(e.target.value)}
+        >
           <option value={"latest"}>최신순</option>
           <option value={"horoscope"}>별점순</option>
         </select>
@@ -26,8 +49,8 @@ const ReviewList = ({ data }) => {
         />
       </div>
       <div className="list_wrapper">
-        {data.length > 0 &&
-          data.map((item) => (
+        {getSortedData().length > 0 &&
+          getSortedData().map((item) => (
             <ReviewItem
               key={item.id}
               id={item.id} // id 추가
