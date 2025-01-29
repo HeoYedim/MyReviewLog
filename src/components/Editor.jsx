@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import "./Editor.css";
+
 import { getStringedDate } from "../util/get-stringed-date";
+import { fetchMovieList } from "../api/tmdb";
+import { fetchBookList } from "../api/googleBooks";
 
 const Editor = ({ initData, onSubmit }) => {
   const handleStarClick = (star) => {
@@ -29,6 +32,11 @@ const Editor = ({ initData, onSubmit }) => {
 
   const [errors, setErrors] = useState({});
 
+  // movie poster - tmdb api 관련
+  const [suggestions, setSuggestions] = useState([]);
+  const [debouncedTitle, setDebouncedTitle] = useState("");
+  const [isSelecting, setIsSelecting] = useState(false);
+
   useEffect(() => {
     if (initData) {
       setFormData({
@@ -38,6 +46,38 @@ const Editor = ({ initData, onSubmit }) => {
       });
     }
   }, [initData]);
+
+  // tmdb api 관련 useEffect - 디바운싱 + api 호출 최적화
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedTitle(formData.createdTitle);
+    }, 1000);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [formData.createdTitle]);
+
+  useEffect(() => {
+    if (isSelecting) return; // ✅ 선택 중이면 실행 안 함
+
+    console.log("디바운싱된 검색어:", debouncedTitle);
+
+    if (debouncedTitle && debouncedTitle.trim() !== "") {
+      const fetchList =
+        formData.category === "movie" ? fetchMovieList : fetchBookList;
+
+      fetchList(debouncedTitle).then((results) => {
+        console.log("자동완성 목록 업데이트:", results);
+
+        if (Array.isArray(results) && results.length > 0) {
+          setSuggestions(results);
+        } else {
+          setSuggestions([]);
+        }
+      });
+    }
+  }, [debouncedTitle, formData.category, isSelecting]); // ✅ isSelecting을 의존성에 포함
 
   const onChangeFormData = (e) => {
     let name = e.target.name;
@@ -133,6 +173,23 @@ const Editor = ({ initData, onSubmit }) => {
       category: category,
       selectedGenres: ["", "", ""], // 카테고리 변경 시 장르 초기화
     }));
+    setSuggestions([]);
+  };
+
+  const handleTitleSelect = (title) => {
+    if (formData.createdTitle !== title) {
+      setIsSelecting(true); // ✅ 선택 중 상태로 설정
+      setFormData((prev) => ({
+        ...prev,
+        createdTitle: title,
+      }));
+      setDebouncedTitle(""); // ✅ 선택 후 디바운싱 검색어 초기화
+    }
+
+    setTimeout(() => {
+      setSuggestions([]);
+      setIsSelecting(false); // ✅ 선택이 끝난 후 false로 변경
+    }, 300); // 🔹 일정 시간 후 재검색 가능하도록 설정
   };
 
   const validateForm = () => {
@@ -192,17 +249,32 @@ const Editor = ({ initData, onSubmit }) => {
 
       <section className="title_section">
         <h5>제목</h5>
-        <input
-          name="createdTitle"
-          value={formData.createdTitle}
-          onChange={onChangeFormData}
-          type="text"
-          placeholder="제목을 입력하세요"
-          className={errors.createdTitle ? "input-error" : ""}
-        />
-        {errors.createdTitle && (
-          <div className="error-message">{errors.createdTitle}</div>
-        )}
+        <div className="title_wrapper">
+          <input
+            name="createdTitle"
+            value={formData.createdTitle}
+            onChange={onChangeFormData}
+            type="text"
+            placeholder="제목을 입력하세요"
+            className={errors.createdTitle ? "input-error" : ""}
+          />
+
+          {errors.createdTitle && (
+            <div className="error-message">{errors.createdTitle}</div>
+          )}
+
+          {suggestions.length > 0 && (
+            <ul className="autocomplete-list">
+              {suggestions.map((item, index) => (
+                <li key={index} onClick={() => handleTitleSelect(item.title)}>
+                  {formData.category === "movie"
+                    ? `${item.title} (${item.year})`
+                    : `${item.title} (${item.authors}, ${item.year})`}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </section>
 
       <section className="date_section">
