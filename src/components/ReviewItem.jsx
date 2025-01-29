@@ -2,6 +2,10 @@ import Button from "./Button";
 import Category from "./Category";
 import "./ReviewItem.css";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+import { fetchMoviePoster } from "../api/tmdb";
+import { fetchBookCover } from "../api/googleBooks";
 
 const ReviewItem = ({
   id,
@@ -15,6 +19,24 @@ const ReviewItem = ({
 }) => {
   const nav = useNavigate();
   // console.log("ReviewItem에서 받은 날짜:", createdDate1, createdDate2);
+
+  // movie poster api 관련
+  const [poster, setPoster] = useState();
+
+  useEffect(() => {
+    console.log("ReviewItem.jsx - createdTitle:", createdTitle);
+    console.log("ReviewItem.jsx - category:", category);
+
+    if (createdTitle) {
+      const fetchCover =
+        category === "movie" ? fetchMoviePoster : fetchBookCover;
+
+      fetchCover(createdTitle).then((image) => {
+        console.log("ReviewItem.jsx - 가져온 표지 URL:", image);
+        setPoster(image);
+      });
+    }
+  }, [category, createdTitle]);
 
   const formatDate = (date) => {
     if (!date) return "날짜 없음";
@@ -32,7 +54,17 @@ const ReviewItem = ({
   return (
     <div className="ReviewItem">
       <div className="img-edit_section">
-        <div className="rectangle" onClick={() => nav(`/review/${id}`)}></div>
+        <div className="rectangle" onClick={() => nav(`/review/${id}`)}>
+          {poster ? (
+            <img
+              src={poster}
+              alt={`${createdTitle} Poster`}
+              className="poster-image"
+            />
+          ) : (
+            <div className="placeholder">이미지 없음</div>
+          )}
+        </div>
         <Button onClick={() => nav(`/edit/${id}`)} text={"수정하기"} />
       </div>
 

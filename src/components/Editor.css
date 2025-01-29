@@ -1,6 +1,6 @@
 .Editor > section {
   margin-bottom: 15px;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 /* 오류 메시지 스타일 */
@@ -16,16 +16,14 @@
   background-color: #fdf2f2;
 }
 
+/* ✅ 공통 섹션 스타일 (유형, 장르, 별점 등) */
 .category_section,
-.title_section,
-.date_section,
 .genre_section,
-.genre_grop,
+.genre_group,
 .star_section {
   display: flex;
-  gap: 20px;
   align-items: center;
-
+  gap: 20px;
   height: 40px;
 }
 
@@ -73,28 +71,124 @@
 /* --------------------유형 끝----------------------- */
 
 /* --------------------input, textArea 시작----------------------- */
-/* 제목, 날짜 Input */
-.Editor > section > input {
-  background-color: rgb(236, 236, 236);
-  border: none;
-  border-radius: 5px;
-  height: 25px;
-  font-size: 14px;
-  padding: 0px 10px;
+/* ✅ 제목 섹션 - 입력창과 드롭다운이 올바르게 정렬되도록 설정 */
+.title_section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-/* 제목 필드 스타일 */
-input[type="text"].input-error {
-  border: 1px solid #e74c3c;
+.title_wrapper {
+  position: relative;
+}
+
+/* ✅ 제목 input */
+.title_section input {
+  background-color: rgb(245, 245, 245);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 40px;
+  font-size: 14px;
+  padding: 0 12px;
+  width: 380px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 0px;
+}
+
+/* ✅ 제목 input 포커스 효과 */
+.title_section input:focus {
+  border-color: #007bff;
+  box-shadow: 0px 0px 6px rgba(0, 123, 255, 0.3);
+}
+
+/* ✅ 자동완성 드롭다운 스타일 - input 아래 딱 붙이기 */
+.autocomplete-list {
+  position: absolute; /* ✅ 다른 요소가 밀리지 않도록 설정 */
+  top: 100%; /* ✅ input 바로 아래에 위치 */
+  left: 0;
+  width: 100%;
+  background: white;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 50; /* ✅ 다른 요소 위에 표시되도록 */
+  box-sizing: border-box;
+  margin: 0px;
+}
+
+ul {
+  padding-left: 0;
+}
+
+/* ✅ 드롭다운 리스트 아이템 스타일 (좌측 정렬 및 여백 추가) */
+.autocomplete-list li {
+  padding: 10px; /* ✅ 좌우 여백 추가 */
+  margin-left: 0px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 14px;
+  transition: background-color 0.2s ease-in-out;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left; /* ✅ 좌측 정렬 적용 */
+}
+
+/* ✅ 드롭다운 아이템 hover 효과 */
+.autocomplete-list li:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* ✅ 드롭다운 첫 번째, 마지막 아이템 둥근 모서리 */
+.autocomplete-list li:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.autocomplete-list li:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/* ✅ 날짜 섹션 - 제목 input과 간격 조정 */
+.date_section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+/* ✅ 날짜 input */
+.date_section input {
+  background-color: rgb(245, 245, 245);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 40px;
+  font-size: 14px;
+  padding: 0 12px;
+  width: 140px; /* ✅ 날짜 입력 필드 크기 통일 */
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+/* ✅ 날짜 input 포커스 효과 */
+.date_section input:focus {
+  border-color: #28a745;
+  box-shadow: 0px 0px 6px rgba(40, 167, 69, 0.3);
 }
 
 /* 한줄 리뷰, 전체 리뷰 */
 .Editor > section > textarea,
 .textareaWrapper > textarea {
   background-color: rgb(236, 236, 236);
-  border: none;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px 12px;
   width: 100%;
   resize: none;
   box-sizing: border-box;
@@ -147,14 +241,14 @@ input[type="text"].input-error {
 /* --------------------장르----------------------- */
 .genre_group {
   display: flex;
-  gap: 15px;
+  gap: 10px;
 }
 
 .custom_select {
   background-color: rgb(236, 236, 236);
-  border: none;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  width: 115px;
+  width: 120px;
   padding: 6px 10px;
   cursor: pointer;
 }
