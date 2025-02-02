@@ -1,11 +1,40 @@
 import "./Viewer.css";
 import Category from "./Category";
+import { useState, useEffect } from "react";
+
+import { fetchMoviePoster } from "../api/tmdb";
+import { fetchBookCover } from "../api/googleBooks";
 
 const Viewer = ({ data }) => {
+  // movie poster api 관련
+  const [poster, setPoster] = useState();
+
+  useEffect(() => {
+    if (data.createdTitle) {
+      const fetchCover =
+        data.category === "movie" ? fetchMoviePoster : fetchBookCover;
+
+      fetchCover(data.createdTitle).then((image) => {
+        console.log("Viewer.jsx - 가져온 표지 URL:", image);
+        setPoster(image);
+      });
+    }
+  }, [data.category, data.createdTitle]);
+
   return (
     <div className="Viewer">
       <section className="img_info_section">
-        <div className="img_rectangle"></div>
+        <div className="img_rectangle">
+          {poster ? (
+            <img
+              src={poster}
+              alt={`${data.createdTitle} Poster`}
+              className="poster-image"
+            />
+          ) : (
+            <div className="placeholder">이미지 없음</div>
+          )}
+        </div>
         <div className="detail_info">
           <div className="viewer_title">
             <Category type={data.category} /> {data.createdTitle}
