@@ -15,7 +15,7 @@ const Viewer = ({ data }) => {
         data.category === "movie" ? fetchMoviePoster : fetchBookCover;
 
       fetchCover(data.createdTitle).then((image) => {
-        console.log("Viewer.jsx - 가져온 표지 URL:", image);
+        //console.log("Viewer.jsx - 가져온 표지 URL:", image);
         setPoster(image);
       });
     }
