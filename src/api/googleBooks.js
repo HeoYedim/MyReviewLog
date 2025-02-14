@@ -38,6 +38,12 @@ export const fetchBookList = async (query) => {
 export const fetchBookCover = async (title) => {
   if (!title) return null;
 
+  // 1️. localStorage에 저장된 이미지 확인
+  const cachedCover = localStorage.getItem(`cover_${title}`);
+  if (cachedCover) {
+    return cachedCover; // ✅ 캐시된 이미지 반환
+  }
+
   try {
     //console.log("fetchBookCover 호출:", title);
     const response = await fetch(
@@ -54,7 +60,12 @@ export const fetchBookCover = async (title) => {
       data.items.length > 0 &&
       data.items[0].volumeInfo.imageLinks
     ) {
-      return data.items[0].volumeInfo.imageLinks.thumbnail;
+      const coverUrl = data.items[0].volumeInfo.imageLinks.thumbnail;
+
+      // 2️. 가져온 표지를 localStorage에 저장
+      localStorage.setItem(`cover_${title}`, coverUrl);
+
+      return coverUrl;
     } else {
       return null;
     }

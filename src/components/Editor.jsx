@@ -59,16 +59,16 @@ const Editor = ({ initData, onSubmit }) => {
   }, [formData.createdTitle]);
 
   useEffect(() => {
-    if (isSelecting) return; // ✅ 선택 중이면 실행 안 함
+    if (isSelecting) return; // 선택 중이면 실행 안 함
 
-    console.log("디바운싱된 검색어:", debouncedTitle);
+    // console.log("디바운싱된 검색어:", debouncedTitle);
 
     if (debouncedTitle && debouncedTitle.trim() !== "") {
       const fetchList =
         formData.category === "movie" ? fetchMovieList : fetchBookList;
 
       fetchList(debouncedTitle).then((results) => {
-        console.log("자동완성 목록 업데이트:", results);
+        // console.log("자동완성 목록 업데이트:", results);
 
         if (Array.isArray(results) && results.length > 0) {
           setSuggestions(results);
@@ -77,7 +77,7 @@ const Editor = ({ initData, onSubmit }) => {
         }
       });
     }
-  }, [debouncedTitle, formData.category, isSelecting]); // ✅ isSelecting을 의존성에 포함
+  }, [debouncedTitle, formData.category, isSelecting]); // isSelecting을 의존성에 포함
 
   const onChangeFormData = (e) => {
     let name = e.target.name;
@@ -178,17 +178,17 @@ const Editor = ({ initData, onSubmit }) => {
 
   const handleTitleSelect = (title) => {
     if (formData.createdTitle !== title) {
-      setIsSelecting(true); // ✅ 선택 중 상태로 설정
+      setIsSelecting(true); // 선택 중 상태로 설정
       setFormData((prev) => ({
         ...prev,
         createdTitle: title,
       }));
-      setDebouncedTitle(""); // ✅ 선택 후 디바운싱 검색어 초기화
+      setDebouncedTitle(""); // 선택 후 디바운싱 검색어 초기화
     }
 
     setTimeout(() => {
       setSuggestions([]);
-      setIsSelecting(false); // ✅ 선택이 끝난 후 false로 변경
+      setIsSelecting(false); // 선택이 끝난 후 false로 변경
     }, 300); // 🔹 일정 시간 후 재검색 가능하도록 설정
   };
 

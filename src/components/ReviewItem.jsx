@@ -21,19 +21,30 @@ const ReviewItem = ({
   // console.log("ReviewItem에서 받은 날짜:", createdDate1, createdDate2);
 
   // movie poster api 관련
-  const [poster, setPoster] = useState();
+  const [poster, setPoster] = useState(null);
 
   useEffect(() => {
-    console.log("ReviewItem.jsx - createdTitle:", createdTitle);
-    console.log("ReviewItem.jsx - category:", category);
+    // console.log("ReviewItem.jsx - createdTitle:", createdTitle);
+    // console.log("ReviewItem.jsx - category:", category);
 
-    if (createdTitle) {
+    if (!createdTitle) return;
+
+    // 1️. localStorage에서 먼저 확인
+    const cachedImage = localStorage.getItem(
+      category === "movie" ? `poster_${createdTitle}` : `cover_${createdTitle}`
+    );
+
+    if (cachedImage) {
+      setPoster(cachedImage);
+    } else {
+      // 2️. API 호출 후 이미지 가져오고, localStorage에 저장
       const fetchCover =
         category === "movie" ? fetchMoviePoster : fetchBookCover;
-
       fetchCover(createdTitle).then((image) => {
-        console.log("ReviewItem.jsx - 가져온 표지 URL:", image);
-        setPoster(image);
+        if (image) {
+          // console.log("ReviewItem.jsx - 가져온 표지 url:".image);
+          setPoster(image);
+        }
       });
     }
   }, [category, createdTitle]);

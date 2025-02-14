@@ -33,6 +33,12 @@ export const fetchMovieList = async (query) => {
 export const fetchMoviePoster = async (title) => {
   if (!title) return null;
 
+  // 1️. localStorage에 저장된 이미지 확인
+  const cachedPoster = localStorage.getItem(`poster_${title}`);
+  if (cachedPoster) {
+    return cachedPoster; // ✅ 캐시된 이미지 반환
+  }
+
   try {
     //console.log("fetchMoviePoster 호출:", title);
     const response = await fetch(
@@ -49,9 +55,14 @@ export const fetchMoviePoster = async (title) => {
       data.results.length > 0 &&
       data.results[0].poster_path
     ) {
-      return `https://image.tmdb.org/t/p/w500${data.results[0].poster_path}`; // ✅ 단일 포스터 URL 반환
+      const posterUrl = `https://image.tmdb.org/t/p/w500${data.results[0].poster_path}`;
+
+      // 2️. 가져온 포스터를 localStorage에 저장
+      localStorage.setItem(`poster_${title}`, posterUrl);
+
+      return posterUrl;
     } else {
-      return null; // ✅ 포스터 없음
+      return null;
     }
   } catch (error) {
     console.error("영화 포스터 가져오기 오류:", error);
