@@ -4,26 +4,36 @@
   border-bottom: 1px solid rgb(236, 236, 236);
 }
 
-.poster-image {
+.poster-image,
+.placeholder {
   width: 120px;
   height: 160px;
   background-color: #7b7b7b;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 5px;
 }
 
 .img-edit_section {
   padding: 10px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .img-edit_section button {
-  flex: 1;
-  margin: 5px 0px;
+  margin-top: 10px;
+  width: 100%;
 }
 
 .info_section {
   cursor: pointer;
-  flex: 1;
+  width: 445px;
 }
 
 .ReviewItem p {
@@ -41,22 +51,21 @@
 .contentTitle_section {
   display: flex;
   align-items: center;
+  width: 100%;
+  overflow: hidden;
+  gap: 10px; /* 카테고리와 제목 간격 */
 }
 
 .contentTitle {
   font-size: 20px;
   font-weight: bold;
   padding: 10px 0px 10px 0px;
-}
-
-.contentCategory {
-  background-color: #1b52b1;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 14px;
-  font-weight: bold;
-  margin-right: 10px;
+  flex-grow: 1; /* 자동 조절 */
+  min-width: 0; /* 줄어들 수 있도록 설정 */
+  max-width: calc(100% - 80px); /* 🔥 최대 너비 설정 (카테고리와 여백 고려) */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* 긴 제목은 한 줄 유지 */
 }
 
 .content {
